@@ -42,7 +42,7 @@ const canShow = () => {
             }
 
             const [brazeUuid] = await Promise.all([getBrazeUuid(), hasRequiredConsents()]);
-            const appboy = await import(/* webpackChunkName: "braze-web-sdk" */ '@braze/web-sdk');
+            const appboy = await import(/* webpackChunkName: "braze-web-sdk-core" */ '@braze/web-sdk-core');
 
             appboy.initialize(apiKey, {
                 enableLogging: false,
