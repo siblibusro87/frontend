@@ -9,19 +9,23 @@ const brazeSwitch = config.get('switches.brazeSwitch');
 const apiKey = config.get('page.brazeApiKey');
 
 const getBrazeUuid = (): Promise<string> =>
-    new Promise(resolve => {
+    new Promise((resolve, reject) => {
         getUserFromApi(user => {
             if (user && user.privateFields && user.privateFields.brazeUuid){
                 resolve(user.privateFields.brazeUuid);
+            } else {
+                reject();
             }
         })
     });
 
 const hasRequiredConsents = (): Promise<void> =>
-    new Promise(resolve => {
+    new Promise((resolve, reject) => {
         oldCmp.onIabConsentNotification(state => {
             if (state[1] && state[2] && state[3] && state[4] && state[5]) {
                 resolve();
+            } else {
+                reject();
             }
         })
     });
