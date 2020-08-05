@@ -26,58 +26,49 @@ const hasRequiredConsents = (): Promise<void> =>
         })
     });
 
-type InitBrazeResult = {
-    appboy: any,
-    brazeUuid: string,
-};
+let messageConfig;
+let canShowPromise;
 
-const initBraze = async (): Promise<InitBrazeResult> => {
-    if (!(brazeSwitch && apiKey)) {
-        throw new Error("Braze not enabled or API key not available");
+const canShow = () => {
+    if (canShowPromise) {
+        return canShowPromise;
     }
 
-    const [brazeUuid] = await Promise.all([getBrazeUuid(), hasRequiredConsents()]);
-    const appboy = await import(/* webpackChunkName: "braze-web-sdk" */ '@braze/web-sdk');
+    canShowPromise = new Promise(async resolve => {
+        console.log("can we show a braze banner?")
+        try {
+            if (!(brazeSwitch && apiKey)) {
+                throw new Error("Braze not enabled or API key not available");
+            }
 
-    console.log("INITIALIZING BRAZE")
-    appboy.initialize(apiKey, {
-        enableLogging: true,
-        noCookies: true,
-        baseUrl: 'https://sdk.fra-01.braze.eu/api/v3',
-        enableHtmlInAppMessages: true,
-        sessionTimeoutInSeconds: 1,
+            const [brazeUuid] = await Promise.all([getBrazeUuid(), hasRequiredConsents()]);
+            const appboy = await import(/* webpackChunkName: "braze-web-sdk" */ '@braze/web-sdk');
+
+            appboy.initialize(apiKey, {
+                enableLogging: false,
+                noCookies: true,
+                baseUrl: 'https://sdk.fra-01.braze.eu/api/v3',
+                enableHtmlInAppMessages: true,
+                sessionTimeoutInSeconds: 1,
+            });
+
+            appboy.subscribeToInAppMessage(configuration => {
+                console.log("Can show braze banner", configuration);
+                messageConfig = configuration;
+                resolve(true);
+            });
+
+            appboy.changeUser(brazeUuid);
+            appboy.openSession();
+        } catch(e) {
+            resolve(false);
+        }
     });
 
-    return {
-        appboy,
-        brazeUuid,
-    }
+    return canShowPromise;
 }
 
-console.log("calling init braze")
-const brazeInitResult = initBraze();
-
-let messageConfig;
-
-const canShow = () => new Promise(async resolve => {
-    console.log("can we show a braze banner?")
-    try {
-        const {appboy, brazeUuid} = await brazeInitResult;
-        console.log("one step forwards")
-
-        appboy.changeUser(brazeUuid);
-
-        appboy.subscribeToInAppMessage(configuration => {
-            console.log("Can show braze banner", configuration);
-            messageConfig = configuration;
-            resolve(true);
-        });
-
-        appboy.openSession();
-    } catch(e) {
-        resolve(false);
-    }
-});
+canShow();
 
 const show = () => {
     console.log("Showing the braze banner", messageConfig);
