@@ -1029,11 +1029,6 @@
   resolved "https://registry.yarnpkg.com/@braze/web-sdk-core/-/web-sdk-core-2.7.0.tgz#14e8d82472a7b9b83818bd251f68027aaa5b9469"
   integrity sha512-pbWfaAPOL3O/5HkIkp7nK7L2H1k9RC6xtFazlAXSXlC0obwTNvuyC0229K0aTpT7NVtuMa1Oxutxfj1Pl2+o1A==
 
-"@braze/web-sdk@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@braze/web-sdk/-/web-sdk-2.6.0.tgz#80908176571c16b7aa752aedf74d557d54427ec1"
-  integrity sha512-+TM8Fekl07B5Fjbh4WoE2IQy+QAA1t8bJTQ8gHZxGhfPoc7jsoaKGYeV3SKFAkaOx7jjjKix23Q6wD4oZjg7Lg==
-
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"

@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@braze/web-sdk": "^2.6.0",
     "@braze/web-sdk-core": "^2.7.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
