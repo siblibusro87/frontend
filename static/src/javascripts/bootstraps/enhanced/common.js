@@ -307,6 +307,7 @@ const initialiseBanner = (): void => {
     // ordered by priority
     const bannerList = [
         consentManagementPlatformUi,
+        brazeBanner,
         breakingNews,
         signInGate,
         membershipBanner,
@@ -316,7 +317,6 @@ const initialiseBanner = (): void => {
         smartAppBanner,
         adFreeBanner,
         emailSignInBanner,
-        brazeBanner,
     ];
 
     initBannerPicker(bannerList);
