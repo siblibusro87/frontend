@@ -3,6 +3,8 @@
 import type { Banner } from 'common/modules/ui/bannerPicker';
 import config from 'lib/config';
 import { oldCmp } from '@guardian/consent-management-platform';
+import { mountDynamic } from "@guardian/automat-modules";
+
 import { getUserFromApi } from '../../common/modules/identity/api';
 
 const brazeSwitch = config.get('switches.brazeSwitch');
@@ -77,6 +79,33 @@ canShow();
 const show = () => {
     console.log("Showing the braze banner", messageConfig);
     return Promise.resolve(true);
+
+    return import(
+                /* webpackChunkName: "guardian-braze-components" */ '@guardian/braze-components'
+            )
+                .then((module) => {
+                    console.log('Loaded web components', module);
+
+                    const container = document.createElement('div');
+                    container.classList.add('braze-banner-container');
+
+                    if (document.body) {
+                        document.body.appendChild(container);
+                    }
+
+                    mountDynamic(
+                        container,
+                        module.ExampleComponent,
+                        { message: messageConfig.extras["test-key"] },
+                        true,
+                        );
+                })
+                .catch((error) =>
+                    console.log(
+                        'Something went wrong with braze web components',
+                        error,
+                    ),
+                );
 };
 
 export const brazeBanner: Banner = {
