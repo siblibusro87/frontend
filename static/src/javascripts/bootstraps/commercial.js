@@ -23,7 +23,6 @@ import { init as initStickyTopBanner } from 'commercial/modules/sticky-top-banne
 import { init as initThirdPartyTags } from 'commercial/modules/third-party-tags';
 import { init as initPaidForBand } from 'commercial/modules/paidfor-band';
 import { init as initComscore } from 'commercial/modules/comscore';
-// import { init as initBraze } from 'commercial/modules/braze';
 import { paidContainers } from 'commercial/modules/paid-containers';
 import { trackPerformance } from 'common/modules/analytics/google';
 import { commercialFeatures } from 'common/modules/commercial/commercial-features';
@@ -59,7 +58,6 @@ if (!commercialFeatures.adFree) {
         ['cm-paidforBand', initPaidForBand],
         ['cm-commentAdverts', initCommentAdverts],
         ['rr-adblock-ask', initAdblockAsk],
-        // ['tx-braze', initBraze]
     );
 }
 
