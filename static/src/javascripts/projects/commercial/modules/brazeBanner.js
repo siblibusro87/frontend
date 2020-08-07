@@ -6,6 +6,7 @@ import { oldCmp } from '@guardian/consent-management-platform';
 import { mountDynamic } from "@guardian/automat-modules";
 
 import { getUserFromApi } from '../../common/modules/identity/api';
+import { isDigitalSubscriber } from "../../common/modules/commercial/user-features";
 
 const brazeSwitch = config.get('switches.brazeSwitch');
 const apiKey = config.get('page.brazeApiKey');
@@ -45,6 +46,11 @@ const canShow = () => {
         try {
             if (!(brazeSwitch && apiKey)) {
                 throw new Error("Braze not enabled or API key not available");
+            }
+
+            if (!isDigitalSubscriber()) {
+                resolve(false);
+                return;
             }
 
             const [brazeUuid] = await Promise.all([getBrazeUuid(), hasRequiredConsents()]);
