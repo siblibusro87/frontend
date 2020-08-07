@@ -22,6 +22,7 @@ const getBrazeUuid = (): Promise<string> =>
         })
     });
 
+// TODO: update this for TDFv2 and CCPA
 const hasRequiredConsents = (): Promise<void> =>
     new Promise((resolve, reject) => {
         oldCmp.onIabConsentNotification(state => {
